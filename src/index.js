@@ -29,20 +29,36 @@ function turnToyToDiv(toyObject){
   // toyDiv.innerText = `${toyObject}`
   let toyHeader = document.createElement("h2")
       toyHeader.innerText = toyObject.name
-  let toyImg = document.createElement("img")
+      let toyImg = document.createElement("img")
       toyImg.src = toyObject.image
       toyImg.className = "toy-avatar"
-
-  let toyP = document.createElement("p")
-    toyP.innerText = toyObject.likes 
-  
-  let toyButton = document.createElement("button")
-    toyButton.className = "like-btn"
-    toyButton.innerText = "Like <3"
-  
-  toyCollection.append(toyDiv)
-  toyDiv.append(toyHeader, toyImg, toyP, toyButton)
-  
+      
+      let toyP = document.createElement("p")
+      toyP.innerText = toyObject.likes 
+      
+      let toyButton = document.createElement("button")
+      toyButton.className = "like-btn"
+      toyButton.innerText = "Like <3"
+      
+      toyCollection.append(toyDiv)
+      toyDiv.append(toyHeader, toyImg, toyP, toyButton)
+      
+        toyButton.addEventListener(`click`), function(){
+        fetch(`http://localhost:3000/toys/${toyObject.id}`,{
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify({
+          likes: toyObject.likes + 1
+        })
+        })
+          .then(res => res.json())
+          .then(function(updatedLikes){
+            toyObject = updatedLikes
+            toyP.innerText = updatedLikes.likes
+          })
+      }
 
 }
 
@@ -71,6 +87,7 @@ headers: {
 
     turnToyToDiv(newlyTypedToy)
   })})
+
 
 
 
