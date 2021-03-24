@@ -19,7 +19,7 @@ fetch("http://localhost:3000/toys")
   .then(function(toyArray){
     toyArray.forEach(function(toyObj){
       turnToyToDiv(toyObj)
-      console.log("fetch block happened")
+  
     })
   })
 
@@ -42,11 +42,40 @@ function turnToyToDiv(toyObject){
   
   toyCollection.append(toyDiv)
   toyDiv.append(toyHeader, toyImg, toyP, toyButton)
-  console.log(turnToyToDiv)
+  
 
 }
 
+const newToyForm = document.querySelector('.add-toy-form')
+newToyForm.addEventListener('submit',function(evt){
+  evt.preventDefault()
+  const nameTyped = evt.target.name.value
+  const imgTyped = evt.target.image.value
+  
 
+  fetch("http://localhost:3000/toys",{
+
+method: 'POST',
+headers: {
+
+  'content-type':'application/json',
+},
+  body: JSON.stringify({
+    name: nameTyped,
+    image: imgTyped,
+    likes: 0
+  })})
+
+  .then(Response => Response.json())
+  .then(function(newlyTypedToy){
+
+    turnToyToDiv(newlyTypedToy)
+  })})
+
+
+
+
+  
 
 
 
