@@ -43,7 +43,7 @@ function turnToyToDiv(toyObject){
       toyCollection.append(toyDiv)
       toyDiv.append(toyHeader, toyImg, toyP, toyButton)
       
-        toyButton.addEventListener(`click`), function(){
+        toyButton.addEventListener(`click`, function(){
         fetch(`http://localhost:3000/toys/${toyObject.id}`,{
         method: "PATCH",
         headers: {
@@ -58,7 +58,7 @@ function turnToyToDiv(toyObject){
             toyObject = updatedLikes
             toyP.innerText = updatedLikes.likes
           })
-      }
+      })
 
 }
 
